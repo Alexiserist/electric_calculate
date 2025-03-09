@@ -1,0 +1,22 @@
+<div class="max-w-[1200px] px-3 mx-auto w-full h-full">
+  <div class="text-5xl py-5 text-center">Calculator</div>
+  <div class="flex flex-wrap gap-3">
+    <div class="card basis-full grow">
+      <form class="example-form" [formGroup]="dataForm">
+        <div class="w-full flex items-center">
+          <mat-form-field class="w-full my-0">
+            <mat-label>รูปแบบการติดตั้ง <i class="fa-solid fa-circle-user"></i></mat-label>
+            <mat-select>
+              <mat-option value="one">First option</mat-option>
+              <mat-option value="two">Second option</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <i class="fa-solid fa-circle-user"></i>
+        </div>
+      </form>
+    </div>
+    <div class="card basis-full grow">
+      <app-installation-1></app-installation-1>
+    </div>
+  </div>
+</div>

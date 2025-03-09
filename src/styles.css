@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+html,
+body {
+  height: 100%;
+  background-color: #f1f1f1;
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.card {
+  background-color: white;
+  padding: 1rem;
+  border-radius: 1rem;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}

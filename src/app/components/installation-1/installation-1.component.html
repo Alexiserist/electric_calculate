@@ -1,1 +1,52 @@
-<p>installation-1 works!</p>
+<form class="example-form" [formGroup]="dataForm">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+    <mat-form-field class="">
+      <mat-label>จำนวนตัวนำกระแส </mat-label>
+      <mat-select formControlName="amountInductor">
+        <mat-option value="2">2</mat-option>
+        <mat-option value="3">3</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="">
+      <mat-label>ลักษณะตัวนำกระแส </mat-label>
+      <mat-select formControlName="typeInductor">
+        <mat-option value="single">แกนเดี่ยว</mat-option>
+        <mat-option value="multiple">หลายแกน</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+  </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-2">
+    <mat-form-field class="example-full-width">
+      <mat-label>ขนาดกระแส (แอมแปร์)</mat-label>
+      <input matInput formControlName="current"/>
+    </mat-form-field>
+    <mat-form-field floatLabel="always">
+      <mat-label>Safety Factor (%)</mat-label>
+      <input
+        matInput
+        formControlName="safetyFactor"
+        type="number"
+        max="100"
+        min="0"
+        maxlength="2"
+        placeholder="0"
+        (valueChange)="calculating()"
+      />
+      <span matTextPrefix>%&nbsp;</span>
+    </mat-form-field>
+  </div>
+  <div class="card flex justify-between">
+    <div>
+      ขนาดสาย (ตร.มม.)
+    </div>
+    <div class="text-bold">
+      {{this.dataForm.get('diameter')?.value}}
+    </div>
+  </div>
+  <div class="flex justify-center pt-4">
+    <button mat-flat-button extended class="px-3" (click)="calculating()"  ngSkipHydration>
+      Calculate
+    </button>
+  </div>
+</form>

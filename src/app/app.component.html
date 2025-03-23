@@ -3,20 +3,25 @@
   <div class="flex flex-wrap gap-3">
     <div class="card basis-full grow">
       <form class="example-form" [formGroup]="dataForm">
-        <div class="w-full flex items-center">
+        <div class="grid grid-col-1 lg:grid-cols-2 gap-2">
           <mat-form-field class="w-full my-0">
             <mat-label>รูปแบบการติดตั้ง <i class="fa-solid fa-circle-user"></i></mat-label>
-            <mat-select>
-              <mat-option value="one">First option</mat-option>
-              <mat-option value="two">Second option</mat-option>
+            <mat-select formControlName="typeInstallation">
+              <mat-option value="1">กลุ่มที่ 1</mat-option>
+              <mat-option value="2">กลุ่มที่ 2</mat-option>
+              <mat-option value="3">กลุ่มที่ 3</mat-option>
+              <mat-option value="4">กลุ่มที่ 4</mat-option>
+              <mat-option value="5">กลุ่มที่ 5</mat-option>
+              <mat-option value="6">กลุ่มที่ 6</mat-option>
+              <mat-option value="7">กลุ่มที่ 7</mat-option>
             </mat-select>
           </mat-form-field>
-          <i class="fa-solid fa-circle-user"></i>
         </div>
       </form>
     </div>
     <div class="card basis-full grow">
-      <app-installation-1></app-installation-1>
+      <app-installation-1  *ngIf="dataForm.get('typeInstallation')?.value == '1' || dataForm.get('typeInstallation')?.value == '2'"  
+      [TypeInstallation]="dataForm.get('typeInstallation')?.value"></app-installation-1>
     </div>
   </div>
 </div>

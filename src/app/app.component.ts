@@ -1,4 +1,4 @@
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormBuilder,
@@ -20,6 +20,7 @@ export interface User {
 @Component({
   selector: 'app-root',
   imports: [
+    CommonModule,
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -39,10 +40,10 @@ export class AppComponent {
 
   constructor(private formbuilder: FormBuilder) {
     this.dataForm = this.formbuilder.group({
-      test: [null],
+      typeInstallation: ['1'],
     });
     this.filteredOption =
-      this.dataForm.get('test')?.valueChanges.pipe(
+      this.dataForm.get('typeInstallation')?.valueChanges.pipe(
         startWith(''),
         map((value) => this._filter(value || ''))
       ) || of([]);

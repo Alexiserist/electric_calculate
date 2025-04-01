@@ -1,40 +1,27 @@
 <form class="example-form" [formGroup]="dataForm">
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
+  <div class="font-bold mb-3 w-full flex justify-between"><span>วงจรย่อยที่ {{ Component + 1}}</span> <span>การติดตั้งกลุ่มที่ {{TypeInstallation}}</span> </div>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
     <mat-form-field class="">
-      <mat-label>จำนวนตัวนำกระแส </mat-label>
-      <mat-select formControlName="amountInductor">
-        <mat-option value="2">2</mat-option>
-        <mat-option value="3">3</mat-option>
+      <mat-label>ฉนวนสายไฟ </mat-label>
+      <mat-select formControlName="typeInsulation">
+        <mat-option value="pvc">PVC</mat-option>
+        <mat-option value="xlpe">XLPE</mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-form-field class="">
-      <mat-label>ลักษณะตัวนำกระแส </mat-label>
-      <mat-select formControlName="typeInductor">
-        <mat-option value="single">แกนเดี่ยว</mat-option>
-        <mat-option value="multiple">หลายแกน</mat-option>
-      </mat-select>
+      <mat-form-field >
+        <mat-label>ลักษณะตัวนำกระแส </mat-label>
+        <mat-select formControlName="typeInductor">
+          <mat-option value="single">แกนเดี่ยว</mat-option>
+          <mat-option value="multiple">หลายแกน</mat-option>
+        </mat-select>
+      </mat-form-field>
+    <div class="flex">
+    <mat-slide-toggle formControlName="linebundle" class="mx-3 mt-3 w-50 ">มีสายควบ ?</mat-slide-toggle>
+    <mat-form-field class="w-full my-0" *ngIf="dataForm.get('linebundle')?.value">
+      <mat-label>จำนวนสายควบ <i class="fa-solid fa-circle-user"></i></mat-label>
+      <input matInput type="number" max="10" min="1" formControlName="linebundleAmount"/>
     </mat-form-field>
-
-  </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2  gap-2">
-    <mat-form-field class="example-full-width">
-      <mat-label>ขนาดกระแส (แอมแปร์)</mat-label>
-      <input matInput formControlName="current"/>
-    </mat-form-field>
-    <mat-form-field floatLabel="always">
-      <mat-label>Safety Factor (%)</mat-label>
-      <input
-        matInput
-        formControlName="safetyFactor"
-        type="number"
-        max="100"
-        min="0"
-        maxlength="2"
-        placeholder="0"
-        (valueChange)="calculating()"
-      />
-      <span matTextPrefix>%&nbsp;</span>
-    </mat-form-field>
+    </div>
   </div>
   <div class="card flex justify-between">
     <div>
@@ -44,9 +31,12 @@
       {{this.dataForm.get('diameter')?.value}}
     </div>
   </div>
-  <div class="flex justify-center pt-4">
+  <div class="flex justify-between pt-4">
+    <button mat-flat-button class="px-3" style="background-color: rgb(255, 79, 79);" (click)="onDelete()" ngSkipHydration>
+      <i class="fa-solid fa-times-circle pr-2"></i>ลบวงจรย่อย
+    </button>
     <button mat-flat-button extended class="px-3" (click)="calculating()"  ngSkipHydration>
-      Calculate
+      <i class="fa-solid fa-calculator"></i> คำนวณ
     </button>
   </div>
 </form>

@@ -1,5 +1,5 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -7,11 +7,12 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { map, Observable, of, startWith } from 'rxjs';
 import { Installation1Component } from "./components/installation-1/installation-1.component";
+import { MatButtonModule } from '@angular/material/button';
+import { Installation2Component } from "./components/installation-2/installation-2.component";
 
 export interface User {
   name: string;
@@ -27,32 +28,59 @@ export interface User {
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatSelectModule,
-    Installation1Component
+    MatButtonModule,
+    Installation1Component,
+    Installation2Component
 ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent {
+  @ViewChildren(Installation1Component) installation1Comp! : QueryList<Installation1Component>;
   title = 'electric-calculate';
   options: string[] = ['one', 'two', 'three'];
+  branchCircuit: {id: number}[] = [];
   dataForm: FormGroup;
-  filteredOption: Observable<string[]> = of([]);
+
+  groupBranchCircuit: {[typeInstallation:number]: {id: number}[]} = { 
+    1: [],
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: [],
+    7: [],
+    8: []
+  }
 
   constructor(private formbuilder: FormBuilder) {
     this.dataForm = this.formbuilder.group({
-      typeInstallation: ['1'],
+      phase: [1],
+      typeInstallation: [1],
+      current: [null],
+      temperature: [40],
     });
-    this.filteredOption =
-      this.dataForm.get('typeInstallation')?.valueChanges.pipe(
-        startWith(''),
-        map((value) => this._filter(value || ''))
-      ) || of([]);
+  }
+  
+
+  onDeleteTrigger(deletedComponent: number) {
+    const typeInstallation = this.dataForm.get('typeInstallation')?.value;
+    this.groupBranchCircuit[typeInstallation].splice(deletedComponent, 1);
+    setTimeout(() => {
+      this.installation1Comp.forEach(comp => comp.calculating());
+    }, 200);
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLocaleLowerCase();
-    return this.options.filter((value) =>
-      value.toLocaleLowerCase().includes(filterValue)
-    );
+  addBranch(){
+    const typeInstallation = this.dataForm.get('typeInstallation')?.value;
+    this.groupBranchCircuit[typeInstallation].push({id: this.groupBranchCircuit[typeInstallation].length + 1})
+    setTimeout(() => {
+      this.installation1Comp.forEach(comp => comp.calculating());
+    }, 200);
   }
+
+  trackByFn(index: number, item: any): number {
+    return item.id; 
+  }
+
 }

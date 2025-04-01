@@ -14,8 +14,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';;
 import { MatButtonModule} from '@angular/material/button';
 import { PhaseElectric, TypeInstallation } from '../../interface/installation.interface';
 import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../../service/ambientTemp';
+
 @Component({
-  selector: 'app-installation-1',
+  selector: 'app-installation-2',
   imports: [
     CommonModule,
     FormsModule,
@@ -27,10 +28,10 @@ import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../
     MatButtonModule,
     MatSlideToggleModule
   ],
-  templateUrl: './installation-1.component.html',
-  styleUrl: './installation-1.component.css',
+  templateUrl: './installation-2.component.html',
+  styleUrl: './installation-2.component.css'
 })
-export class Installation1Component {
+export class Installation2Component {
   @Input() TypeInstallation: TypeInstallation = '1';
   @Input() PhaseElectric: PhaseElectric = '1';
   @Input() Current: number = 0;
@@ -52,32 +53,32 @@ export class Installation1Component {
 
   currentTable: Record<string, number[]> = {
     pvc_group1: [
-      10, 13, 17, 23, 30, 40, 53, 70, 86, 104, 131, 158, 183, 209, 238, 279,
-      319, 0, 0,
+      12, 15, 21, 28, 36, 50, 66, 88, 109, 131, 167, 202, 234, 261, 297, 348,
+      398, 475, 545,
     ],
     pvc_group2: [
-      10, 12, 16, 22, 28, 37, 50, 65, 80, 96, 121, 145, 167, 191, 216, 253, 291,
-      0, 0,
+      11, 14, 20, 26, 33, 45, 60, 78, 97, 116, 146, 175, 202, 224, 256, 299,
+      343, 0, 0,
     ],
     pvc_group3: [
-      9, 12, 16, 21, 27, 37, 49, 64, 77, 94, 118, 143, 164, 188, 213, 249, 285,
-      0, 0,
+      10, 13, 18, 24, 31, 44, 59, 77, 96, 117, 149, 180, 208, 228, 258, 301,
+      343, 406, 464,
     ],
     pvc_group4: [
-      9, 11, 15, 20, 25, 34, 45, 59, 72, 86, 109, 131, 150, 171, 194, 227, 259,
-      0, 0,
+      10, 13, 17, 23, 30, 40, 54, 70, 86, 103, 130, 156, 179, 196, 222, 258,
+      295, 0, 0,
     ],
     xlpe_group1: [
-      13, 17, 24, 32, 41, 56, 74, 96, 119, 144, 182, 219, 253, 289, 329, 386, 442, 0, 0
+      15, 21, 28, 38, 49, 68, 91, 121, 149, 180, 230, 278, 322, 358, 409, 480, 549, 622, 713
     ],
     xlpe_group2: [
-      13, 17, 23, 30, 38, 52, 69, 90, 110, 132, 167, 200, 230, 264, 299, 351, 402, 0, 0
+      15, 20, 27, 36, 46, 63, 83, 108, 133, 159, 201, 241, 278, 304, 349, 419, 484, 0, 0
     ],
     xlpe_group3: [
-      12, 15, 21, 28, 36, 49, 66, 86, 106, 128, 163, 197, 227, 259, 295, 346, 396, 0, 0
+      14, 18, 25, 34, 44, 60, 80, 106, 131, 159, 202, 245, 284, 311, 349, 410, 468, 531, 606
     ],
     xlpe_group4: [
-      12, 15, 20, 27, 35, 46, 62, 81, 99, 118, 149, 179, 207, 236, 268, 315, 360, 0, 0
+      14, 18, 24, 32, 40, 55, 73, 96, 116, 140, 177, 212, 244, 273, 309, 362, 414, 0, 0
     ],
   };
 
@@ -140,7 +141,7 @@ export class Installation1Component {
 
     const ambientFactor = (branchFactor*ambientRatingFactor);
 
-    current = Math.round(current/ambientFactor);
+    current = Math.round(current/ambientFactor)  //safty factor
 
     const dataRange = this.mappingCurrentTable(this.mappingConditionTable());
 
@@ -152,3 +153,4 @@ export class Installation1Component {
     this.deleteComponent.emit(this.Component);
   }
 }
+

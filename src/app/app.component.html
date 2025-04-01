@@ -5,23 +5,74 @@
       <form class="example-form" [formGroup]="dataForm">
         <div class="grid grid-col-1 lg:grid-cols-2 gap-2">
           <mat-form-field class="w-full my-0">
+            <mat-label>ระบบไฟฟ้า <i class="fa-solid fa-circle-user"></i></mat-label>
+            <mat-select formControlName="phase">
+              <mat-option [value]="1">1 เฟส</mat-option>
+              <mat-option [value]="3">3 เฟส</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full my-0">
+            <mat-label>กระแส CB <i class="fa-solid fa-circle-user"></i></mat-label>
+            <input matInput formControlName="current" />
+          </mat-form-field>
+          <mat-form-field class="w-full my-0">
+            <mat-label>อุณหถูมิโดนรอบ <i class="fa-solid fa-circle-user"></i></mat-label>
+            <input matInput formControlName="temperature"/>
+          </mat-form-field>
+          <mat-form-field class="w-full my-0">
             <mat-label>รูปแบบการติดตั้ง <i class="fa-solid fa-circle-user"></i></mat-label>
             <mat-select formControlName="typeInstallation">
-              <mat-option value="1">กลุ่มที่ 1</mat-option>
-              <mat-option value="2">กลุ่มที่ 2</mat-option>
-              <mat-option value="3">กลุ่มที่ 3</mat-option>
-              <mat-option value="4">กลุ่มที่ 4</mat-option>
-              <mat-option value="5">กลุ่มที่ 5</mat-option>
-              <mat-option value="6">กลุ่มที่ 6</mat-option>
-              <mat-option value="7">กลุ่มที่ 7</mat-option>
+              <mat-option [value]="1">กลุ่มที่ 1</mat-option>
+              <mat-option [value]="2">กลุ่มที่ 2</mat-option>
+              <mat-option [value]="3">กลุ่มที่ 3</mat-option>
+              <mat-option [value]="4">กลุ่มที่ 4</mat-option>
+              <mat-option [value]="5">กลุ่มที่ 5</mat-option>
+              <mat-option [value]="6">กลุ่มที่ 6</mat-option>
+              <mat-option [value]="7">กลุ่มที่ 7</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
       </form>
     </div>
-    <div class="card basis-full grow">
-      <app-installation-1  *ngIf="dataForm.get('typeInstallation')?.value == '1' || dataForm.get('typeInstallation')?.value == '2'"  
-      [TypeInstallation]="dataForm.get('typeInstallation')?.value"></app-installation-1>
+<!--     <ng-container *ngIf="dataForm.get('typeInstallation')?.value === 1">
+      <ng-container *ngFor="let item of branchCircuit;  let i = index; trackBy: trackByFn">
+        <div class="card basis-full grow">
+          <app-installation-1  [Component]="i" 
+          [PhaseElectric]="dataForm.get('phase')?.value"
+          [Current]="dataForm.get('current')?.value"
+          [Temperature]="dataForm.get('temperature')?.value"
+          [TypeInstallation]="dataForm.get('typeInstallation')?.value"  
+          [BranchCircuit]="branchCircuit.length"
+          (deleteComponent)="onDeleteTrigger($event)" >
+          </app-installation-1>
+        </div>
+      </ng-container>
+    </ng-container> -->
+    <ng-container *ngIf="groupBranchCircuit[dataForm.get('typeInstallation')?.value]">
+      <ng-container *ngFor="let item of groupBranchCircuit[dataForm.get('typeInstallation')?.value]; let i = index; trackBy: trackByFn">
+        <div class="card basis-full grow">
+          <ng-container [ngSwitch]="dataForm.get('typeInstallation')?.value">
+            <app-installation-1 *ngSwitchCase="1" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+              [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value" [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              (deleteComponent)="onDeleteTrigger($event)">
+            </app-installation-1>
+            <app-installation-2 *ngSwitchCase="2" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+              [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value" [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              (deleteComponent)="onDeleteTrigger($event)">
+            </app-installation-2>
+          </ng-container>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    
+    <div class="flex flex-col items-center w-full my-7">
+      <div class="text-center cursor-pointer" (click)="addBranch()">
+        <i class="text-5xl text-blue-500 fa-solid fa-circle-plus"></i>
+        <div class="text-blue-500 font-bold select-none">เพิ่มวงจรย่อย</div>
+      </div>
     </div>
   </div>
 </div>

@@ -16,7 +16,7 @@ import { PhaseElectric, TypeInstallation } from '../../interface/installation.in
 import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../../service/ambientTemp';
 
 @Component({
-  selector: 'app-installation-3',
+  selector: 'app-installation-4',
   imports: [
     CommonModule,
     FormsModule,
@@ -26,12 +26,12 @@ import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
-  templateUrl: './installation-3.component.html',
-  styleUrl: './installation-3.component.css'
+  templateUrl: './installation-4.component.html',
+  styleUrl: './installation-4.component.css',
 })
-export class Installation3Component {
+export class Installation4Component {
   @Input() TypeInstallation: TypeInstallation = '1';
   @Input() PhaseElectric: PhaseElectric = '1';
   @Input() Current: number = 0;
@@ -44,65 +44,55 @@ export class Installation3Component {
   constructor(private formbuilder: FormBuilder) {
     this.dataForm = this.formbuilder.group({
       typeInsulation: [null],
-      typeInductor: [null],
-      typeWire: [null],
+      typeReplacement: [null],
       diameter: ['-'],
       linebundle: [false],
-      linebundleAmount : [1],
+      linebundleAmount: [1],
     });
   }
 
   currentTable: Record<string, number[]> = {
     pvc_group1: [
-      14, 17, 23, 32, 41, 56, 74, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      30, 39, 56, 78, 113, 141, 171, 221, 271, 315, 365, 418, 495, 573, 692,
     ],
     pvc_group2: [
-      12, 16, 22, 29, 37, 51, 69, 90, 112, 145, 186, 227, 264, 304, 348, 411, 474, 552, 629
+      37, 48, 67, 92, 127, 157, 191, 244, 297, 345, 397, 453, 535, 617, 741,
     ],
-    pvc_group3: [
-      12, 15,21, 28, 36, 50, 66, 84, 104, 125, 160, 194, 225, 260, 297, 351, 404, 0 , 0
+    xlpe_group1: [
+      47, 60, 82, 110, 147, 183, 224, 289, 354, 413, 480, 551, 654, 758, 917,
+      1064,
     ],
     xlpe_group2: [
-      16, 21, 28, 37, 49, 67,90 ,118, 147, 190, 244, 297, 345, 397, 455, 537, 620, 722, 823
-    ],
-    xlpe_group3: [
-      15, 20, 27, 36, 47, 65, 87, 108, 134, 163, 208, 253, 293, 338, 386, 455,524, 0 , 0
+      54, 68, 90, 124, 166, 206, 250, 321, 391, 455, 525, 602, 711, 821, 987,
+      1140,
     ],
   };
 
   sizeWireRange = [
-    1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240, 300, 400,
-    500,
+    4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240, 300, 400,
   ];
-  
-  mappingGroupCondition: Record<string, string> = {  //amountinductor_typeInductor_wireType 
-    '2_single_flat': 'group1',
-    '3_single_rounded': 'group2',
-    '3_multiple_rounded': 'group3',
+
+  mappingGroupCondition: Record<string, string> = {
+    //amountinductor_typeInductor  // 2ตัวนำ_แกนเดี่ยว , 3ตัวนำ_หลายแกน
+    vertical: 'group1',
+    horizontal: 'group2',
   };
 
   mappingConditionTable(): string {
-    const typeInductor = this.dataForm.get('typeInductor')?.value;
-    const wireType = this.dataForm.get('typeWire')?.value;
-    const convertAmountIncductor: Record<string,string> = {
-      '1' : "2",
-      '3' : '3'
-    }
-    const phaseElectric = convertAmountIncductor[this.PhaseElectric];
-    const key = `${phaseElectric}_${typeInductor}_${wireType}`;
-    console.log(key)
+    const typeReplacement = this.dataForm.get('typeReplacement')?.value;
+    const key = `${typeReplacement}`;
     return this.mappingGroupCondition[key] || 'group1';
   }
 
   mappingCurrentTable(group: string) {
     const typeInsulation = this.dataForm.get('typeInsulation')?.value;
-    const dataKey = typeInsulation + '_' + group
+    const dataKey = typeInsulation + '_' + group;
     return this.currentTable[dataKey];
   }
 
   findingSizeWire(data: number[], current: number) {
-    if(!data) {
-      return '-'
+    if (!data) {
+      return '-';
     }
     const index = data.findIndex((value) => value >= current);
     if (index == -1) {
@@ -112,34 +102,39 @@ export class Installation3Component {
   }
 
   calculating() {
-    if(this.dataForm.invalid){
+    if (this.dataForm.invalid) {
       this.dataForm.get('diameter')?.setValue('-');
       return;
     }
     const typeInsulation = this.dataForm.get('typeInsulation')?.value;
     let current = Number(this.Current);
-    const mappingTemperatureData = convertInstallation(Number(this.TypeInstallation)) + "_" + typeInsulation;
-    const ambientRatingFactor = findingTempFactor(Number(this.Temperature),mappingTemperatureData);
-    const branchFactor =  branchCircuitFactor(this.BranchCircuit);
+    const mappingTemperatureData =
+      convertInstallation(Number(this.TypeInstallation)) + '_' + typeInsulation;
+    const ambientRatingFactor = findingTempFactor(
+      Number(this.Temperature),
+      mappingTemperatureData
+    );
+    const branchFactor = branchCircuitFactor(this.BranchCircuit);
 
-    const linebundleamounth = Number(this.dataForm.get('linebundleAmount')?.value);
-
-    if(this.dataForm.get('linebundle')?.value){
-      current = Math.ceil(current/linebundleamounth);
+    const linebundleamounth = Number(
+      this.dataForm.get('linebundleAmount')?.value
+    );
+    if (this.dataForm.get('linebundle')?.value) {
+      current = Math.ceil(current / linebundleamounth);
     }
 
-    const ambientFactor = (branchFactor*ambientRatingFactor);
+    const ambientFactor = branchFactor * ambientRatingFactor;
 
-    current = Math.round(current/ambientFactor)  //safty factor
+    current = Math.round(current / ambientFactor);
 
     const dataRange = this.mappingCurrentTable(this.mappingConditionTable());
 
-    this.dataForm.get('diameter')?.setValue(this.findingSizeWire(dataRange, current));
-
+    this.dataForm
+      .get('diameter')
+      ?.setValue(this.findingSizeWire(dataRange, current));
   }
 
   onDelete() {
     this.deleteComponent.emit(this.Component);
   }
 }
-

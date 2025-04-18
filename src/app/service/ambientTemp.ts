@@ -16,7 +16,7 @@ export const temperatureTable: Record<string, number[]> = {
 export const temperatureRange = [15, 20, 25, 30, 35, 40, 45, 50 , 55, 60, 65, 70, 75, 80];
 
 export const convertInstallation = (installation: number): string => {
-  if(installation == 6 || installation == 7 ){
+  if(installation == 6 || installation == 5 ){
     return 'ground'
   }else {
     return 'air'

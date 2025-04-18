@@ -1,0 +1,10 @@
+::ng-deep .mat-mdc-form-field .mdc-text-field--filled {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-radius: 1rem;
+    border: solid 1px gray;
+  }
+  
+  ::ng-deep .mat-mdc-select {
+    background-color: transparent !important;
+  }

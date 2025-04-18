@@ -16,7 +16,7 @@ import { PhaseElectric, TypeInstallation } from '../../interface/installation.in
 import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../../service/ambientTemp';
 
 @Component({
-  selector: 'app-installation-3',
+  selector: 'app-installation-5',
   imports: [
     CommonModule,
     FormsModule,
@@ -26,12 +26,12 @@ import { branchCircuitFactor, convertInstallation, findingTempFactor } from '../
     ReactiveFormsModule,
     MatSelectModule,
     MatButtonModule,
-    MatSlideToggleModule
+    MatSlideToggleModule    
   ],
-  templateUrl: './installation-3.component.html',
-  styleUrl: './installation-3.component.css'
+  templateUrl: './installation-5.component.html',
+  styleUrl: './installation-5.component.css'
 })
-export class Installation3Component {
+export class Installation5Component {
   @Input() TypeInstallation: TypeInstallation = '1';
   @Input() PhaseElectric: PhaseElectric = '1';
   @Input() Current: number = 0;
@@ -45,7 +45,6 @@ export class Installation3Component {
     this.dataForm = this.formbuilder.group({
       typeInsulation: [null],
       typeInductor: [null],
-      typeWire: [null],
       diameter: ['-'],
       linebundle: [false],
       linebundleAmount : [1],
@@ -54,49 +53,43 @@ export class Installation3Component {
 
   currentTable: Record<string, number[]> = {
     pvc_group1: [
-      14, 17, 23, 32, 41, 56, 74, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      17,21 ,28 ,36, 46, 62, 81, 106, 129, 153, 190, 232, 265, 303, 344, 404, 462, 529, 605
     ],
     pvc_group2: [
-      12, 16, 22, 29, 37, 51, 69, 90, 112, 145, 186, 227, 264, 304, 348, 411, 474, 552, 629
+      15, 19, 25, 33, 41, 55 ,72, 94, 114, 136, 168, 204, 234, 266 ,303, 361, 404, 462, 527
     ],
-    pvc_group3: [
-      12, 15,21, 28, 36, 50, 66, 84, 104, 125, 160, 194, 225, 260, 297, 351, 404, 0 , 0
+    xlpe_group1: [
+      25, 33, 43, 54, 71, 94, 124, 150, 180, 223, 271, 313, 355, 406, 477, 543, 625, 717
     ],
     xlpe_group2: [
-      16, 21, 28, 37, 49, 67,90 ,118, 147, 190, 244, 297, 345, 397, 455, 537, 620, 722, 823
+      22, 29, 38, 47, 63, 83, 109, 132, 159, 196, 238, 275, 312, 356, 418, 475, 545, 623
     ],
-    xlpe_group3: [
-      15, 20, 27, 36, 47, 65, 87, 108, 134, 163, 208, 253, 293, 338, 386, 455,524, 0 , 0
-    ],
+
   };
 
   sizeWireRange = [
-    1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240, 300, 400,
-    500,
+    1, 1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95, 120, 150, 185, 240, 300, 400, 500 
   ];
   
-  mappingGroupCondition: Record<string, string> = {  //amountinductor_typeInductor_wireType 
-    '2_single_flat': 'group1',
-    '3_single_rounded': 'group2',
-    '3_multiple_rounded': 'group3',
+  mappingGroupCondition: Record<string, string> = {  //amountinductor_typeInductor  // 2ตัวนำ_แกนเดี่ยว , 3ตัวนำ_หลายแกน
+    '2': 'group1',
+    '3': 'group2',
   };
 
   mappingConditionTable(): string {
-    const typeInductor = this.dataForm.get('typeInductor')?.value;
-    const wireType = this.dataForm.get('typeWire')?.value;
     const convertAmountIncductor: Record<string,string> = {
       '1' : "2",
       '3' : '3'
     }
     const phaseElectric = convertAmountIncductor[this.PhaseElectric];
-    const key = `${phaseElectric}_${typeInductor}_${wireType}`;
-    console.log(key)
+    const key = `${phaseElectric}`;
     return this.mappingGroupCondition[key] || 'group1';
   }
 
   mappingCurrentTable(group: string) {
     const typeInsulation = this.dataForm.get('typeInsulation')?.value;
-    const dataKey = typeInsulation + '_' + group
+    const dataKey = typeInsulation + '_' + group;
+    console.log(this.currentTable[dataKey])
     return this.currentTable[dataKey];
   }
 

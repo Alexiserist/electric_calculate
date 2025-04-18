@@ -17,7 +17,7 @@
           </mat-form-field>
           <mat-form-field class="w-full my-0">
             <mat-label>อุณหถูมิโดนรอบ <i class="fa-solid fa-circle-user"></i></mat-label>
-            <input matInput formControlName="temperature"/>
+            <input matInput formControlName="temperature" />
           </mat-form-field>
           <mat-form-field class="w-full my-0">
             <mat-label>รูปแบบการติดตั้ง <i class="fa-solid fa-circle-user"></i></mat-label>
@@ -31,10 +31,56 @@
               <mat-option [value]="7">กลุ่มที่ 7</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-form-field class="w-full my-0" *ngIf="dataForm.get('typeInstallation')?.value == '7'">
+            <mat-label>รูปแบบการติดตั้งราง <i class="fa-solid fa-circle-user"></i></mat-label>
+            <mat-select formControlName="trayInstallation" (selectionChange)="onTrayChangeTrigger()">
+                <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="100px" src="installation-7/type-1.png" /></div></mat-option>
+                <mat-option value="2"><div class="flex items-center gap-3">แบบที่ 2 <img class="p-4" width="100px" src="installation-7/type-2.png" /></div></mat-option>
+                <mat-option value="3"><div class="flex items-center gap-3">แบบที่ 3 <img class="p-4" width="100px" src="installation-7/type-3.png" /></div></mat-option>
+                <mat-option value="4"><div class="flex items-center gap-3">แบบที่ 4 <img class="p-4" width="100px" src="installation-7/type-4.png" /></div></mat-option>
+                <mat-option value="5"><div class="flex items-center gap-3">แบบที่ 5 <img class="p-4" width="100px" src="installation-7/type-5.png" /></div></mat-option>
+                <mat-option value="6"><div class="flex items-center gap-3">แบบที่ 6 <img class="p-4" width="100px" src="installation-7/type-6.png" /></div></mat-option>
+                <mat-option value="7"><div class="flex items-center gap-3">แบบที่ 7 <img class="p-4" width="100px" src="installation-7/type-7.png" /></div></mat-option>
+                <mat-option value="8"><div class="flex items-center gap-3">แบบที่ 8 <img class="p-4" width="100px" src="installation-7/type-8.png" /></div></mat-option>
+                <mat-option value="9"><div class="flex items-center gap-3">แบบที่ 9 <img class="p-4" width="100px" src="installation-7/type-9.png" /></div></mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-full my-0" *ngIf="onshowWireinstallation()">
+            <mat-label>รูปแบบวางสาย <i class="fa-solid fa-circle-user"></i></mat-label>
+            <mat-select formControlName="wireInstallation" (selectionChange)="shouldShowWireInstallation">
+              <ng-container [ngSwitch]="this.dataForm.get('trayInstallation')?.value">
+                <ng-container *ngSwitchCase="'1'">
+                  <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="125px" src="installation-7/type/7-1-1.png" /></div></mat-option>
+                  <mat-option value="2"><div class="flex items-center gap-3">แบบที่ 2 <img class="p-4" width="75px" src="installation-7/type/7-1-2.png" /></div></mat-option>
+                  <mat-option value="3"><div class="flex items-center gap-3">แบบที่ 3 <img class="p-4" width="125px" src="installation-7/type/7-1-3.png" /></div></mat-option>
+                </ng-container>
+                <ng-container *ngSwitchCase="'2'">
+                  <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="125px" src="installation-7/type/7-2-1.png" /></div></mat-option>
+                  <mat-option value="2"><div class="flex items-center gap-3">แบบที่ 2 <img class="p-4" width="75px" src="installation-7/type/7-2-3.png" /></div></mat-option>
+                  <mat-option value="3"><div class="flex items-center gap-3">แบบที่ 3 <img class="p-4" width="125px" src="installation-7/type/7-2-2.png" /></div></mat-option>
+                </ng-container>
+                <ng-container *ngSwitchCase="'3'">
+                  <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="125px" src="installation-7/type/7-3-1.png" /></div></mat-option>
+                  <mat-option value="2"><div class="flex items-center gap-3">แบบที่ 2 <img class="p-4" width="125px" src="installation-7/type/7-3-3.png" /></div></mat-option>
+                </ng-container>
+                <ng-container *ngSwitchCase="'4'">
+                  <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="100px" src="installation-7/type/7-3-2.png" /></div></mat-option>
+                </ng-container>
+                <ng-container *ngSwitchCase="'5'">
+                  <mat-option value="1"><div class="flex items-center gap-3">แบบที่ 1 <img class="p-4" width="150px" src="installation-7/type/7-4-1.png" /></div></mat-option>
+                  <mat-option value="2"><div class="flex items-center gap-3">แบบที่ 2 <img class="p-4" width="150px" src="installation-7/type/7-4-6.png" /></div></mat-option>
+                  <mat-option value="3"><div class="flex items-center gap-3">แบบที่ 3 <img class="p-4" width="100px" src="installation-7/type/7-4-3.png" /></div></mat-option>
+                  <mat-option value="4"><div class="flex items-center gap-3">แบบที่ 4 <img class="p-4" width="150px" src="installation-7/type/7-4-2.png" /></div></mat-option>
+                  <mat-option value="5"><div class="flex items-center gap-3">แบบที่ 5 <img class="p-4" width="150px" src="installation-7/type/7-4-7.png" /></div></mat-option>
+                  <mat-option value="6"><div class="flex items-center gap-3">แบบที่ 6 <img class="p-4" width="125px" src="installation-7/type/7-4-4.png" /></div></mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
         </div>
       </form>
     </div>
-<!--     <ng-container *ngIf="dataForm.get('typeInstallation')?.value === 1">
+    <!--     <ng-container *ngIf="dataForm.get('typeInstallation')?.value === 1">
       <ng-container *ngFor="let item of branchCircuit;  let i = index; trackBy: trackByFn">
         <div class="card basis-full grow">
           <app-installation-1  [Component]="i" 
@@ -49,25 +95,60 @@
       </ng-container>
     </ng-container> -->
     <ng-container *ngIf="groupBranchCircuit[dataForm.get('typeInstallation')?.value]">
-      <ng-container *ngFor="let item of groupBranchCircuit[dataForm.get('typeInstallation')?.value]; let i = index; trackBy: trackByFn">
+      <ng-container
+        *ngFor="let item of groupBranchCircuit[dataForm.get('typeInstallation')?.value]; let i = index; trackBy: trackByFn">
         <div class="card basis-full grow">
           <ng-container [ngSwitch]="dataForm.get('typeInstallation')?.value">
             <app-installation-1 *ngSwitchCase="1" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
               [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
-              [TypeInstallation]="dataForm.get('typeInstallation')?.value" [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+              [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
               (deleteComponent)="onDeleteTrigger($event)">
             </app-installation-1>
             <app-installation-2 *ngSwitchCase="2" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
               [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
-              [TypeInstallation]="dataForm.get('typeInstallation')?.value" [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+              [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
               (deleteComponent)="onDeleteTrigger($event)">
             </app-installation-2>
+            <app-installation-3 *ngSwitchCase="3" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+              [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+              [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              (deleteComponent)="onDeleteTrigger($event)">
+            </app-installation-3>
+            <app-installation-4 *ngSwitchCase="4" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+              [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+              [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+              [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+              (deleteComponent)="onDeleteTrigger($event)">
+            </app-installation-4>
+            <app-installation-5 *ngSwitchCase="5" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+            [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+            [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+            [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+            (deleteComponent)="onDeleteTrigger($event)">
+            </app-installation-5>
+            <app-installation-6 *ngSwitchCase="6" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+            [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+            [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+            [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+            (deleteComponent)="onDeleteTrigger($event)">
+          </app-installation-6>
+          <app-installation-7 *ngSwitchCase="7" [Component]="i" [PhaseElectric]="dataForm.get('phase')?.value"
+          [TrayInstallation]="dataForm.get('trayInstallation')?.value"
+          [WireInstallation]="dataForm.get('wireInstallation')?.value"
+          [Current]="dataForm.get('current')?.value" [Temperature]="dataForm.get('temperature')?.value"
+          [TypeInstallation]="dataForm.get('typeInstallation')?.value"
+          [BranchCircuit]="groupBranchCircuit[dataForm.get('typeInstallation')?.value].length"
+          (deleteComponent)="onDeleteTrigger($event)">
+          </app-installation-7>
           </ng-container>
         </div>
       </ng-container>
     </ng-container>
 
-    
+
     <div class="flex flex-col items-center w-full my-7">
       <div class="text-center cursor-pointer" (click)="addBranch()">
         <i class="text-5xl text-blue-500 fa-solid fa-circle-plus"></i>
